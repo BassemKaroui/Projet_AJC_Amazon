@@ -1,6 +1,6 @@
 FROM ubuntu
 
-WORKDIR /root/data
+WORKDIR /root
 
 RUN apt update \
     && apt upgrade -y \
@@ -11,8 +11,7 @@ RUN apt update \
     && wget https://archive.apache.org/dist/spark/spark-3.0.1/spark-3.0.1-bin-hadoop2.7.tgz \
     && tar xzf spark-3.0.1-bin-hadoop2.7.tgz \
     && mv spark-3.0.1-bin-hadoop2.7 /opt/spark \
-    && wget https://jdbc.postgresql.org/download/postgresql-42.2.12.jar \
-    && mv postgresql-42.2.12.jar ..
+    && wget https://jdbc.postgresql.org/download/postgresql-42.2.12.jar
 
 ENV JUPYTER_HOME=/root/.local
 ENV PATH=$JUPYTER_HOME/bin:$PATH

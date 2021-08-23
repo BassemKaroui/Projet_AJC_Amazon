@@ -17,7 +17,7 @@ services:
     ports:
       - "8800:8888"
     volumes: 
-      - ./spark_workspace:/root/
+      - ./spark_workspace:/root/workspace
     stdin_open: true
     tty: true
 
