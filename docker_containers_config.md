@@ -1,34 +1,37 @@
 # README
 
 This [docker-compose.yml](./docker-compose.yml) file is used to create 3 docker containers :
+
 * **spark** : a container hosting spark 3.0.1
 * **postgres** : a container hosting a postgres database
   * *admin user* : postgres
   * *password* : spark123
 * **pgadmin4** : a container hosting pgadmin4 used to connect to postgres.
-  * *email* : basskaroui@gmail.com
+  * *email* : amazon@gmail.com
   * *password* : spark123
   * *connection URL* : localhost:10
 
 ## Start/Stop the containers
 
 * `docker-compose up -d [--build]` &rarr; optionally use the flag `--build` to force the rebuilding of the image
-
 * `docker-compose down --remove-orphans`
 
 ## Launch pyspark
 
 To launch pyspark :
-* connect to the spark container using **VS Code** 
-* type one of the following commands 
+
+* connect to the spark container using **VS Code**
+* type one of the following commands
   * `pyspark`
   * `pyspark --jars $SPARK_CLASSPATH`
   * `pyspark --jars /root/postgresql-42.2.12.jar`
-  
+
 Now it would be possible to use *port forwarding* since no port was published when creating the container.
 
 ## Create a table in the database
+
 To create the table **client** in the postgress db use pgadmin with the following commands :
+
 ```sql
 CREATE TABLE client(
 	id_clt INTEGER,
