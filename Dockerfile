@@ -25,3 +25,5 @@ ENV PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
 ENV SPARK_CLASSPATH='/root/postgresql-42.2.12.jar'
 
 EXPOSE 8888
+
+WORKDIR /root/workspace
