@@ -1,0 +1,46 @@
+version: '3.8'
+
+volumes: 
+    pgadmin_vol:
+    postgres_vol:
+
+networks: 
+    spark_net:
+
+services:
+  spark:
+    build: ./
+    container_name: spark
+    restart: always
+    networks: 
+      - spark_net
+    volumes: 
+      - ./data:/root/data
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    env_file: 
+      - ./env/postgres.env
+    # ports: 
+    #   - "5432:5432"
+    networks: 
+      - spark_net
+    volumes: 
+      - postgres_vol:/var/lib/postgresql/data
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    env_file: 
+      - ./env/pgadmin.env
+    ports:
+      - "10:80"
+    networks: 
+      - spark_net
+    volumes: 
+      - pgadmin_vol:/var/lib/pgadmin
