@@ -14,7 +14,10 @@ services:
     restart: always
     networks: 
       - spark_net
+    ports:
+      - "8800:8888"
     volumes: 
+      - ./spark_workspace:/root/
       - ./data:/root/data
     stdin_open: true
     tty: true
