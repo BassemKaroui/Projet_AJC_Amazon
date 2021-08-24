@@ -2,3 +2,5 @@ __pycache__/
 data/
 meta_Movies_and_TV.json
 Movies_and_TV.json
+.ipynb_checkpoints
+.Trash-0
