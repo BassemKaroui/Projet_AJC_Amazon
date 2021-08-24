@@ -1,0 +1,132 @@
+
+<!-- On hérite de la page de base -->
+{% extends 'base.html' %}
+
+
+<!-- Ajout du contenu -->
+{% block content %}
+
+<div class="container-fluid d-flex flex-row">
+    <div class="col-2">
+        
+    </div>
+    <div class="col-8 d-flex justify-content-center">
+        <div class="row w-100 d-flex justify-content-center">
+            <div class="input-group col-12 d-flex justify-content-center mt-5 mb-5">
+                <input type="text" class="form-control col-5" id="comment" placeholder="Fill with your comment..."></input>
+                <button class="btn btn-secondary w-10" type="button" onclick="computeComment()">Compute</button>
+            </div>
+
+            <div class="m-2"></div>
+            <canvas id="myChart" width="0.7" height="0.25" class="mb-5"></canvas>
+        </div>
+        <div class="row">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block script %}
+
+<script>
+
+Chart.defaults.font.size = 18;
+var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
+            datasets: [{
+                label: 'Estimated Rating',
+                data: [0, 0, 0, 0, 0, 0],
+                backgroundColor: [
+                    'rgba(65, 116, 76, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(65, 116, 76, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+              y:{
+                display: true,
+                title: {
+                    text: "Probability",
+                    display: true,
+                    font: {
+                        size: 20
+                    }
+                },
+                grid: {
+                    display: true
+                }    
+              },
+              x:{
+                grid: {
+                    display: false
+                }    
+              }
+
+          }
+      }
+    });
+
+
+function computeComment() {
+    var jsonObj = [];
+    var item = {};
+    item["comment"] = $("#comment").val();
+    jsonObj.push(item);
+    var datasJson = JSON.stringify(jsonObj);
+    console.log(datasJson)
+
+    $.ajax({
+        url:"/api/getstars",
+        contentType:"application/json; charset=utf-8", //type de donnée envoyée
+        dataType:"json", //type de donnée reçue
+        type:"POST",
+        data: datasJson,
+        success: function(response){
+            for (let i = 0; i < 6; i++) {  
+                removeData(myChart)
+            }
+            $.each(response, function(index, proba){
+                if (index==1) {
+                    addData(myChart, index + " Star", proba)
+                } else {
+                    addData(myChart, index + " Stars", proba)
+                }
+            })
+        },
+        error: function(){
+            console.log("Error")
+        }
+    });
+}
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
+
+
+
+</script>
+{% endblock %}
