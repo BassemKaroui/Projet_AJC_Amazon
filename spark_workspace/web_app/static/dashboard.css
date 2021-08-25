@@ -103,58 +103,6 @@ body {
 }
 
 
-.font-20px{font-size: 20px!important;}
-.font-50px{font-size: 50px!important;}
-.font-70px{font-size: 70px!important;}
-
-.fa-battery-filling{
-  position: relative;
-}
-.fa-battery-filling span{
-  position: absolute;
-  background: orange;
-  top: 28%;
-  height: 44%;
-  left: 11%;
-  border-radius: 2px;
-  transition: 250ms ease;
-}
-.fa-battery-filling [style="width:calc(1% * 0.73)"],
-.fa-battery-filling [style="width:calc(2% * 0.73)"], 
-.fa-battery-filling [style="width:calc(3% * 0.73)"], 
-.fa-battery-filling [style="width:calc(4% * 0.73)"], 
-.fa-battery-filling [style="width:calc(5% * 0.73)"], 
-.fa-battery-filling [style="width:calc(6% * 0.73)"], 
-.fa-battery-filling [style="width:calc(7% * 0.73)"], 
-.fa-battery-filling [style="width:calc(8% * 0.73)"], 
-.fa-battery-filling [style="width:calc(9% * 0.73)"], 
-.fa-battery-filling [style="width:calc(10% * 0.73)"],
-.fa-battery-filling [style="width:calc(11% * 0.73)"],
-.fa-battery-filling [style="width:calc(12% * 0.73)"],
-.fa-battery-filling [style="width:calc(13% * 0.73)"],
-.fa-battery-filling [style="width:calc(14% * 0.73)"],
-.fa-battery-filling [style="width:calc(15% * 0.73)"],
-.fa-battery-filling [style="width:calc(16% * 0.73)"],
-.fa-battery-filling [style="width:calc(17% * 0.73)"],
-.fa-battery-filling [style="width:calc(18% * 0.73)"],
-.fa-battery-filling [style="width:calc(19% * 0.73)"],
-.fa-battery-filling [style="width:calc(20% * 0.73)"]{
-  background: red;
-}
-.fa-battery-filling [style="width:calc(90% * 0.73)"],
-.fa-battery-filling [style="width:calc(91% * 0.73)"],
-.fa-battery-filling [style="width:calc(92% * 0.73)"],
-.fa-battery-filling [style="width:calc(93% * 0.73)"],
-.fa-battery-filling [style="width:calc(94% * 0.73)"],
-.fa-battery-filling [style="width:calc(95% * 0.73)"],
-.fa-battery-filling [style="width:calc(96% * 0.73)"],
-.fa-battery-filling [style="width:calc(97% * 0.73)"],
-.fa-battery-filling [style="width:calc(98% * 0.73)"],
-.fa-battery-filling [style="width:calc(99% * 0.73)"],
-.fa-battery-filling [style="width:calc(100% * 0.73)"]{
-  background: green;
-}
-
 .highlight {
   border:solid 1px rgb(206, 223, 255);
 }
