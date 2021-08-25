@@ -7,15 +7,15 @@ import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-reviews_df = pd.read_csv('data/reviews.csv', nrows=1000)
-products_df = pd.read_csv('data/products_df.csv', nrows=1000)
-also_buy_df = pd.read_csv('data/also_buy.csv', nrows=1000)
-also_view_df = pd.read_csv('data/also_view.csv', nrows=1000)
-categories_df = pd.read_csv('data/categories.csv', nrows=1000)
+reviews_df = pd.read_csv('web_app/data/reviews.csv', nrows=1000)
+products_df = pd.read_csv('web_app/data/products.csv', nrows=1000)
+also_buy_df = pd.read_csv('web_app/data/also_buy.csv', nrows=1000)
+also_view_df = pd.read_csv('web_app/data/also_view.csv', nrows=1000)
+categories_df = pd.read_csv('web_app/data/categories.csv', nrows=1000)
 products_description_df = pd.read_csv(
-    'data/products_description.csv', nrows=1000)
-products_feature_df = pd.read_csv('data/products_feature.csv', nrows=1000)
-products_images_df = pd.read_csv('data/products_images.csv', nrows=1000)
+    'web_app/data/products_description.csv', nrows=1000)
+products_feature_df = pd.read_csv('web_app/data/products_feature.csv', nrows=1000)
+products_images_df = pd.read_csv('web_app/data/products_images.csv', nrows=1000)
 
 
 def create_app():
@@ -69,7 +69,7 @@ def create_app():
         data = products_df[['asin', 'title']].to_dict('list')
         return jsonify(data)
 
-    @app.route('api/get_product_details', methods=['POST'])
+    @app.route('/api/get_product_details', methods=['POST'])
     def get_product_details():
         data = request.json  # data : {'id': ___}
         product_id = data['id']
@@ -82,7 +82,7 @@ def create_app():
                         'reviewerID', 'reviewerName']].to_dict('list'))
         return jsonify(response)
 
-    @app.route('api/get_reviews', methods=['POST'])
+    @app.route('/api/get_reviews', methods=['POST'])
     def get_reviews():
         data = request.json  # data : {'product_id': ___, 'reviewer_id': _____}
         product_id = data['product_id']
@@ -94,7 +94,7 @@ def create_app():
         response = raw_response.to_dict('list')
         return jsonify(response)
 
-    @app.route('api/get_all_reviews', methods=['POST'])
+    @app.route('/api/get_all_reviews', methods=['POST'])
     def get_all_reviews():
         data = request.json  # data : {'id': ___}
         product_id = data['id']
