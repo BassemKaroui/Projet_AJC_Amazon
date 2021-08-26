@@ -8,16 +8,17 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 reviews_df = pd.read_csv('web_app/data/reviews.csv', nrows=1000)
-products_df = pd.read_csv('web_app/data/products.csv', nrows=1000)
-also_buy_df = pd.read_csv('web_app/data/also_buy.csv', nrows=1000)
-also_view_df = pd.read_csv('web_app/data/also_view.csv', nrows=1000)
-categories_df = pd.read_csv('web_app/data/categories.csv', nrows=1000)
+products_df = pd.read_csv('web_app/data/products.csv')
+products_df = products_df.loc[products_df.title.notna()]
+also_buy_df = pd.read_csv('web_app/data/also_buy.csv')
+also_view_df = pd.read_csv('web_app/data/also_view.csv')
+categories_df = pd.read_csv('web_app/data/categories.csv',)
 products_description_df = pd.read_csv(
-    'web_app/data/products_description.csv', nrows=1000)
+    'web_app/data/products_description.csv')
 products_feature_df = pd.read_csv(
-    'web_app/data/products_feature.csv', nrows=1000)
+    'web_app/data/products_feature.csv')
 products_images_df = pd.read_csv(
-    'web_app/data/products_images.csv', nrows=1000)
+    'web_app/data/products_images.csv')
 
 
 def create_app():
@@ -70,10 +71,10 @@ def create_app():
         res = torch.nn.functional.softmax(stars.logits, dim=-1)
         return {"1": res[0][0].item(), "2": res[0][1].item(), "3": res[0][2].item(), "4": res[0][3].item(), "5": res[0][4].item()}
 
-    @app.route('/api/get_products')
-    def get_products():
-        data = products_df[['asin', 'title']].to_dict('list')
-        return jsonify(data)
+    # @app.route('/api/get_products')
+    # def get_products():
+    #     data = products_df[['asin', 'title']].to_dict('list')
+    #     return jsonify(data)
 
     @app.route('/api/get_product_details', methods=['POST'])
     def get_product_details():
@@ -82,23 +83,9 @@ def create_app():
 
         row = products_df.loc[products_df.asin == product_id, [
             'main_cat', 'price', 'description', 'image']]
-        response = row.to_dict('record')[0]
+        response = row.to_json(orient='records')
 
-        response.update(reviews_df.loc[reviews_df.asin == product_id, [
-                        'reviewerID', 'reviewerName']].to_dict('list'))
-        return jsonify(response)
-
-    @app.route('/api/get_reviews', methods=['POST'])
-    def get_reviews():
-        data = request.json  # data : {'product_id': ___, 'reviewer_id': _____}
-        product_id = data['product_id']
-        reviewer_id = data['reviewer_id']
-
-        raw_response = reviews_df.loc[(reviews_df.asin == product_id) & (
-            reviews_df.reviewerID == reviewer_id), ['reviewTime', 'vote', 'summary', 'reviewText', 'overall']].sort_values('reviewTime', ascending=False)
-
-        response = raw_response.to_dict('list')
-        return jsonify(response)
+        return response
 
     @app.route('/api/get_all_reviews', methods=['POST'])
     def get_all_reviews():
@@ -108,7 +95,18 @@ def create_app():
         raw_response = reviews_df.loc[reviews_df.asin == product_id, [
             'reviewerID', 'reviewerName', 'reviewTime', 'vote', 'summary', 'reviewText', 'overall']].sort_values('reviewTime', ascending=False)
 
-        response = raw_response.to_dict('list')
-        return jsonify(response)
+        response = raw_response.to_json(orient='records')
+        return response
+
+    @app.route('/api/autocomp', methods=['POST'])
+    def sendWordList():
+        data = request.json  # data : {"pattern" : ______}
+        pattern = data["pattern"].lower()
+        if pattern != "":
+            response = products_df.loc[products_df.title.str.lower().str.startswith(pattern), [
+                'asin', 'title']].to_dict('list')
+            return jsonify(response)
+        else:
+            return jsonify({'asin': [], 'title': []})
 
     return app

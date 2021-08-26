@@ -10,21 +10,21 @@
         <div class="title">
             <b>Product</b>
         </div>
-        <div class="col-3 p-0">
+        <div id="p-img text-center" class="col-3 p-0">
             <img src="https://media.ldlc.com/r1600/ld/products/00/05/14/22/LD0005142206_2.jpg" width="100%"></img>
         </div>
 
         <div class="col-9 p-3">
-            <div class="p-title">
+            <div id="p-title" class="p-title">
                 <b>Souris Logitech G502</b>
             </div>
 
-            <div class="p-desc">
+            <div id="p-desc" class="p-desc">
                 Logitech G502 HERO Souris Gamer Filaire Haute Performance, Capteur Gaming HERO 25K, 25 600 PPP, RVB,
                 Poids Ajustable, 11 Boutons Programmables, Mémoire Intégrée, PC/Mac - Noire
             </div>
 
-            <div class="p-price">
+            <div id="p-price" class="p-price">
                 <b>59.99$</b>
             </div>
         </div>
@@ -123,27 +123,47 @@
 
     $(document).ready(function () {
 
-        getProducts();
 
     })
 
+    var searchbar = document.getElementById("searchbar")
+    searchbar.addEventListener('keyup', logKey);
 
+    function logKey(e) {
+        if (searchbar.value.length >= 3) {
+            getProducts();
+        }
+    }
 
     function getProducts() {
+        var item = {};
+        item['pattern'] = searchbar.value;
+        var jsonIn = JSON.stringify(item);
+        console.log("input")
+        console.log(jsonIn)
+
         $.ajax({
-            url: '/api/get_products',
-            type: "GET",
-            dataType: 'json',
+            url: "/api/autocomp",
+            contentType: "application/json; charset=utf-8", //type de donnée envoyée
+            dataType: "json", //type de donnée reçue
+            type: "POST",
+            data: jsonIn,
             success: function (response) {
                 var json = JSON.parse(JSON.stringify(response))
-                var searchbar = document.getElementById("searchbar")
-                var index = Math.floor(Math.random() * json.asin.length)
-                searchbar.value = json.title[index]
-                searchbar.setAttribute("value", json.asin[index])
-                getProductDetails(json.asin[index])
-                console.log(json)
-                // $.each(datas, function (indexRoom, room) {
-                // })
+                if (json.asin.length > 0) {
+                    var index = Math.floor(Math.random() * json.asin.length)
+                    searchbar.value = json.title[index]
+                    searchbar.setAttribute("value", json.asin[index])
+
+                    var ptitle = document.getElementById("p-title")
+
+
+                    ptitle.innerHTML = "<b>" + json.title[index] + "</b>"
+
+
+
+                    getProductDetails(json.asin[index])
+                }
             }
         })
     }
@@ -152,7 +172,45 @@
         var item = {};
         item['id'] = asin;
         var datas = JSON.stringify(item);
-        console.log(datas)
+        $.ajax({
+            url: "/api/get_product_details",
+            contentType: "application/json; charset=utf-8", //type de donnée envoyée
+            dataType: "json", //type de donnée reçue
+            type: "POST",
+            data: datas,
+            success: function (response) {
+                details = response[0]
+
+                var pdesc = document.getElementById("p-desc")
+                var pprice = document.getElementById("p-price")
+                var pimg = document.getElementById("p-img")
+
+
+                if (details.description != null) {
+                    pdesc.innerHTML = details.description
+                } else {
+                    pdesc.innerHTML = ""
+                }
+
+                if (details.price != null) {
+                    pprice.innerHTML = "<b>" + details.price + "$</b>"
+                } else {
+                    pprice.innerHTML = "<b>-</b>"
+                }
+
+                if (details.image != null) {
+                    pimg.innerHTML = '<img src="' + details.image + '" width="100%"></img>'
+                } else {
+                    pimg.innerHTML = '<div>No picture</div>'
+                }
+            }
+        })
+    }
+
+    function getProductReviews(asin) {
+        var item = {};
+        item['id'] = asin;
+        var datas = JSON.stringify(item);
         $.ajax({
             url: "/api/get_all_reviews",
             contentType: "application/json; charset=utf-8", //type de donnée envoyée
@@ -160,11 +218,7 @@
             type: "POST",
             data: datas,
             success: function (response) {
-                var details = JSON.parse(JSON.stringify(response))
-                console.log(details)
-                console.log("OK")
-                // $.each(datas, function (indexRoom, room) {
-                // })
+                console.log(response[0])
             }
         })
     }
