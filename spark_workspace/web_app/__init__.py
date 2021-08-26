@@ -14,8 +14,10 @@ also_view_df = pd.read_csv('web_app/data/also_view.csv', nrows=1000)
 categories_df = pd.read_csv('web_app/data/categories.csv', nrows=1000)
 products_description_df = pd.read_csv(
     'web_app/data/products_description.csv', nrows=1000)
-products_feature_df = pd.read_csv('web_app/data/products_feature.csv', nrows=1000)
-products_images_df = pd.read_csv('web_app/data/products_images.csv', nrows=1000)
+products_feature_df = pd.read_csv(
+    'web_app/data/products_feature.csv', nrows=1000)
+products_images_df = pd.read_csv(
+    'web_app/data/products_images.csv', nrows=1000)
 
 
 def create_app():
@@ -39,13 +41,17 @@ def create_app():
     def homePage():
         return render_template("index.html")
 
-    @app.route('/stars')
+    @app.route('/reviews')
     def firstPage():
-        return render_template("stars.html")
+        return render_template("reviews.html")
 
-    @app.route('/qa')
+    @app.route('/price')
     def secondPage():
-        return render_template("qa.html")
+        return render_template("price.html")
+
+    @app.route('/rating')
+    def thirdPage():
+        return render_template("rating.html")
 
     #-----------------------------------------------------------------------------------#
     # APIs                                                                              #
@@ -89,7 +95,7 @@ def create_app():
         reviewer_id = data['reviewer_id']
 
         raw_response = reviews_df.loc[(reviews_df.asin == product_id) & (
-            reviews_df.reviewerID == reviewer_id), ['reviewTime', 'vote', 'summary', 'reviewText', 'overall']]
+            reviews_df.reviewerID == reviewer_id), ['reviewTime', 'vote', 'summary', 'reviewText', 'overall']].sort_values('reviewTime', ascending=False)
 
         response = raw_response.to_dict('list')
         return jsonify(response)
@@ -100,7 +106,7 @@ def create_app():
         product_id = data['id']
 
         raw_response = reviews_df.loc[reviews_df.asin == product_id, [
-            'reviewerID', 'reviewerName', 'reviewTime', 'vote', 'summary', 'reviewText', 'overall']]
+            'reviewerID', 'reviewerName', 'reviewTime', 'vote', 'summary', 'reviewText', 'overall']].sort_values('reviewTime', ascending=False)
 
         response = raw_response.to_dict('list')
         return jsonify(response)

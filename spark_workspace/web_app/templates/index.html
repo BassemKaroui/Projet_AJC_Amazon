@@ -1,4 +1,3 @@
-
 <!-- On hérite de la page de base -->
 {% extends 'base.html' %}
 
@@ -6,6 +5,39 @@
 
 <!-- Ajout du contenu -->
 {% block content %}
+
+<div class="container-fluid d-flex flex-row justify-content-around align-items-center">
+
+    <a href="/reviews" class="custom-card">
+        <div class="card flex-fill m-3">
+            <div class="card-header text-center"><b>Reviews</b></div>
+            <div class="card-body">Search for products, all associated data will be displayed such as product
+                description,
+                reviews, price...</div>
+            <div class="card-footer text-center">-</div>
+        </div>
+    </a>
+
+    <a href="/rating" class="custom-card">
+        <div class="card flex-fill m-3">
+            <div class="card-header text-center"><b>Rating</b></div>
+            <div class="card-body">Pre-trained bert model used to predict average rating from reviewText.
+            </div>
+            <div class="card-footer text-center">Accuracy: <b>??%</b></div>
+        </div>
+    </a>
+
+    <a href="/price" class="custom-card">
+        <div class="card flex-fill m-3">
+            <div class="card-header text-center"><b>Price</b></div>
+            <div class="card-body">Multi-model approach to give seller an estimated price based on product meta-data,
+                pictures...
+            </div>
+            <div class="card-footer text-center">Accuracy: <b>??%</b></div>
+        </div>
+    </a>
+
+</div>
 
 
 {% endblock %}
@@ -17,9 +49,9 @@
 <script>
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        
+
     })
 
 

@@ -32,38 +32,52 @@
 
 
 <div class="header">
-    <div id="nav-bar">
-        <div id="nav-belt">
-            <div class="nav-left">
+    <div id="nav-bar" class="w-100">
+        <div id="nav-belt" class="d-flex flex-row justify-content-around align-items-center">
+            <div class="nav-left w-25">
                 <div id="logo">
                     <span>
                         <img src="https://logo-marque.com/wp-content/uploads/2020/04/Amazon-Symbole.png" height="70px">
                         </img>
                     </span>
-                    <span></span>
-                    <span>.fr</span>
                 </div>
             </div>
 
-            <div class=" nav-fill">
+            <div class=" nav-fill w-50">
+                <div class="input-group">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">All categories</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Movies & TV</a></li>
+                        <li><a class="dropdown-item" href="#">Music</a></li>
+                        <li><a class="dropdown-item" href="#">Book</a></li>
+                    </ul>
+                    <input id="searchbar" type="text" class="form-control form-warning"
+                        aria-label="Text input with 2 dropdown buttons">
+                    <button class="btn btn-warning">Search</button>
+                </div>
             </div>
 
-            <div class="nav-right">
+            <div class="nav-right w-25">
             </div>
         </div>
 
-        <div id="nav-main" class="nav-secondary d-flex">
-            <div class="nav-left">
-                Page 1
-            </div>
+        <div id="nav-main" class="nav-secondary d-flex flex-row justify-content-center align-items-center">
+            <a href="/" class="mt-1 ms-4 me-4">
+                <h6>Home</h6>
+            </a>
 
-            <div class="nav-fill">
-                Page 2
-            </div>
+            <a href="/reviews" class="mt-1 ms-4 me-4">
+                <h6>Reviews</h6>
+            </a>
 
-            <div class="nav-right">
-                Page 3
-            </div>
+            <a href="/rating" class="mt-1 ms-4 me-4">
+                <h6>Rating</h6>
+            </a>
+
+            <a href="/price" class="mt-1 ms-4 me-4">
+                <h6>Price</h6>
+            </a>
         </div>
     </div>
 </div>
@@ -108,8 +122,8 @@
 </body>
 
 <div class="footer d-flex justify-content-around">
-    <div>model: <b>bert-base-multilingual-uncased-sentiment</b></div>
-    <div>supported languages: <b>English-Dutch-German-French-Italian-Spanish</b></div>
+    <div></div>
+    <div></div>
 </div>
 
 </html>

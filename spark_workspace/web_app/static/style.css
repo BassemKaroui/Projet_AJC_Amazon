@@ -29,14 +29,14 @@ body {
     padding: 0;
     margin: 0;
     font-size: 30px;
-    height: 80px;
+    /* height: 80px; */
 }
 
 .footer {
     text-align: center;
     clear: both;
     position: relative;
-    height: 50px;
+    /* height: 50px; */
     margin-top: 2px;
 }
 
@@ -128,3 +128,54 @@ tr:hover {
     background-color: #3e8e41;
   }
   
+  .card-header {
+    background-color: #ffc107;
+  }
+
+  .card {
+    border-color: #d1d1d1;
+  }
+
+  .card:hover {
+    border-color: #ffc107;
+    background-color: #ffe69a;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+
+  a.custom-card, a.custom-card:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a, a:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .p-price {
+    color: #3e8e41;
+  }
+
+  .p-desc {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .title {
+    background-color: #d8d7d7;
+    text-align: center;
+    text-decoration: solid;
+    border: 1px solid grey;
+  }
+
+  .checked {
+    color: #ffc107;
+  }
+
+  .reviews {
+    background-color: #ffffff;
+    border-top-color: rgb(228, 228, 228);
+    border-top-width: 3px;
+    border-top-style: solid;
+  }
