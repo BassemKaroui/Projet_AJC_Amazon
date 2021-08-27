@@ -10,22 +10,17 @@
         <div class="title">
             <b>Product</b>
         </div>
-        <div id="p-img text-center" class="col-3 p-0">
-            <img src="https://media.ldlc.com/r1600/ld/products/00/05/14/22/LD0005142206_2.jpg" width="100%"></img>
+        <div id="p-img" class="col-3 p-0 text-center d-flex justify-content-center flex-column">
         </div>
 
-        <div class="col-9 p-3">
+        <div class="col-sm-8 p-3">
             <div id="p-title" class="p-title">
-                <b>Souris Logitech G502</b>
             </div>
 
             <div id="p-desc" class="p-desc">
-                Logitech G502 HERO Souris Gamer Filaire Haute Performance, Capteur Gaming HERO 25K, 25 600 PPP, RVB,
-                Poids Ajustable, 11 Boutons Programmables, Mémoire Intégrée, PC/Mac - Noire
             </div>
 
             <div id="p-price" class="p-price">
-                <b>59.99$</b>
             </div>
         </div>
     </div>
@@ -35,76 +30,8 @@
         <div class="title">
             <b>Reviews</b>
         </div>
-        <div class="reviews d-flex flex-row p-3">
-            <div class="col-3 text-center">
-                <span>John</span>
-                <div>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <span>12/08/2021 - 18:52</span>
-            </div>
-            <div class="d-flex flex-column col-9">
-                <span>
-                    When your unique leading character, the person the show has been built around for 17 seasons,
-                    decides it is time to go home, wrap the series while you can still do it gracefully. CBS didn't do
-                    that. Instead, they gave us an NCIS season with Mark Harmon as Leroy Jethro Gibbs mostly on the
-                    sidelines, and major characters departing in all directions. It was mostly painful to watch. No
-                    offense to Sean Murray as McGee, but folks aren't going to tune in indefinitely to watch him leading
-                    what we know is Gibbs' team.
+        <div id="reviews" class="reviews d-flex flex-column p-0">
 
-                    As another reviewer has noted, the departure of "Jack" Sloane should have been a warning. The
-                    shocking no-notice loss of Eleanor Bishop (Emily Wickersham) at season's end short-circuited a
-                    promising romance and further gutted the cast. CBS reportedly is bringing in a couple of new cast
-                    members for Season 19, but it is hard to see how that is going to restore the dynamic of the show.
-                    Hope CBS has better ideas for Season 19 and quickly. Season 18 is only recommended to really
-                    hardcore fans of the series.
-                </span>
-            </div>
-        </div>
-
-        <div class="reviews d-flex flex-row p-3">
-            <div class="col-3 text-center">
-                <span>Jack</span>
-                <div>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <span>12/08/2021 - 18:42</span>
-            </div>
-            <div class="d-flex flex-column col-9 text-left">
-                <span>
-                    It is not as good as the first one and it’s definitely not teenage appropriate as there is a lot
-                    more sexual content in this one but it was still a quite enjoyable flick
-                </span>
-            </div>
-        </div>
-
-        <div class="reviews d-flex flex-row p-3">
-            <div class="col-3 text-center">
-                <span>Robin</span>
-                <div>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <span>12/08/2021 - 18:32</span>
-            </div>
-            <div class="d-flex flex-column col-9 text-left">
-                <span>
-                    Season finale sucked. Series finale sucked. Gibbs "maturing" sucked, betraying every value the show
-                    had. When Jack leaves, you leave too -- trust me. 17 years of character development trashed. Like
-                    being burnt by your bestfriend or "family". If I could give zero stars I would.
-                </span>
-            </div>
         </div>
 
     </div>
@@ -120,27 +47,20 @@
 {% block script %}
 <script>
 
+    const button = document.getElementById('btnSearch');
+    const searchbar = document.getElementById("searchbar")
 
-    $(document).ready(function () {
-
-
-    })
-
-    var searchbar = document.getElementById("searchbar")
-    searchbar.addEventListener('keyup', logKey);
-
-    function logKey(e) {
+    button.addEventListener('click', event => {
         if (searchbar.value.length >= 3) {
             getProducts();
         }
-    }
+    });
+
 
     function getProducts() {
         var item = {};
         item['pattern'] = searchbar.value;
         var jsonIn = JSON.stringify(item);
-        console.log("input")
-        console.log(jsonIn)
 
         $.ajax({
             url: "/api/autocomp",
@@ -156,13 +76,10 @@
                     searchbar.setAttribute("value", json.asin[index])
 
                     var ptitle = document.getElementById("p-title")
-
-
                     ptitle.innerHTML = "<b>" + json.title[index] + "</b>"
 
-
-
                     getProductDetails(json.asin[index])
+                    getProductReviews(json.asin[index])
                 }
             }
         })
@@ -199,7 +116,7 @@
                 }
 
                 if (details.image != null) {
-                    pimg.innerHTML = '<img src="' + details.image + '" width="100%"></img>'
+                    pimg.innerHTML = '<img src="' + details.image + '" width="100%">'
                 } else {
                     pimg.innerHTML = '<div>No picture</div>'
                 }
@@ -218,7 +135,30 @@
             type: "POST",
             data: datas,
             success: function (response) {
-                console.log(response[0])
+
+                console.log(response)
+                var reviews = document.getElementById("reviews")
+                reviews.innerHTML = ""
+                var tmp
+
+                if (response.length == 0) {
+                    reviews.innerHTML = '<div class="text-center pt-5 pb-5">No reviews</div>'
+                } else {
+                    $.each(response, function (index, review) {
+                        console.log(review)
+                        tmp = '<div class="d-flex flex-row pb-3 pt-3"><div class="col-3 text-center d-flex flex-column"><span>' + review.reviewerName + '</span><div>'
+                        for (let stars = 1; stars < 6; stars++) {
+                            if (stars <= review.overall) {
+                                tmp += '<span class="fa fa-star checked"></span>'
+                            } else {
+                                tmp += '<span class="fa fa-star"></span>'
+                            }
+                        }
+                        tmp += '</div><span>' + review.reviewTime + '</span></div><div class="d-flex flex-column col-8"><span><b>' + review.summary + '</b></span><span>' + review.reviewText + '</span></div></div>'
+
+                        reviews.innerHTML += tmp
+                    })
+                }
             }
         })
     }
