@@ -10,14 +10,17 @@
         <div class="title">
             <b>Product</b>
         </div>
-        <div id="p-img" class="col-3 p-0 text-center d-flex justify-content-center flex-column">
+        <div id="p-img" class="col-2 p-0 text-center d-flex justify-content-center flex-column">
         </div>
 
-        <div class="col-sm-8 p-3">
+        <div class="col-sm-9 p-3">
             <div id="p-title" class="p-title">
             </div>
 
             <div id="p-desc" class="p-desc">
+            </div>
+
+            <div id="p-cat" class="p-cat pb-2">
             </div>
 
             <div id="p-price" class="p-price">
@@ -47,11 +50,19 @@
 {% block script %}
 <script>
 
+
+    const navitem = document.getElementById("rev")
+    var x = document.getElementsByClassName("nav-main-item");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].classList.remove("active");
+    }
+    navitem.classList.add("active")
     const button = document.getElementById('btnSearch');
     const searchbar = document.getElementById("searchbar")
 
     button.addEventListener('click', event => {
-        if (searchbar.value.length >= 3) {
+        if (searchbar.value.length >= 1) {
             getProducts();
         }
     });
@@ -100,6 +111,7 @@
 
                 var pdesc = document.getElementById("p-desc")
                 var pprice = document.getElementById("p-price")
+                var pcat = document.getElementById("p-cat")
                 var pimg = document.getElementById("p-img")
 
 
@@ -110,9 +122,15 @@
                 }
 
                 if (details.price != null) {
-                    pprice.innerHTML = "<b>" + details.price + "$</b>"
+                    pprice.innerHTML = "<b>$" + details.price + "</b>"
                 } else {
                     pprice.innerHTML = "<b>-</b>"
+                }
+
+                if (details.main_cat != null) {
+                    pcat.innerHTML = "<b>" + details.main_cat + "</b>"
+                } else {
+                    pcat.innerHTML = "<b>-</b>"
                 }
 
                 if (details.image != null) {
@@ -142,11 +160,11 @@
                 var tmp
 
                 if (response.length == 0) {
-                    reviews.innerHTML = '<div class="text-center pt-5 pb-5">No reviews</div>'
+                    reviews.innerHTML = '<div class="text-center pt-4 pb-4">No reviews</div>'
                 } else {
                     $.each(response, function (index, review) {
                         console.log(review)
-                        tmp = '<div class="d-flex flex-row pb-3 pt-3"><div class="col-3 text-center d-flex flex-column"><span>' + review.reviewerName + '</span><div>'
+                        tmp = '<div class="d-flex flex-row pb-3 pt-3"><div class="col-2 text-center d-flex flex-column"><span>' + review.reviewerName + '</span><div>'
                         for (let stars = 1; stars < 6; stars++) {
                             if (stars <= review.overall) {
                                 tmp += '<span class="fa fa-star checked"></span>'
@@ -154,7 +172,7 @@
                                 tmp += '<span class="fa fa-star"></span>'
                             }
                         }
-                        tmp += '</div><span>' + review.reviewTime + '</span></div><div class="d-flex flex-column col-8"><span><b>' + review.summary + '</b></span><span>' + review.reviewText + '</span></div></div>'
+                        tmp += '</div><span>' + review.reviewTime + '</span></div><div class="d-flex flex-column col-9"><span><b>' + review.summary + '</b></span><span>' + review.reviewText + '</span></div></div>'
 
                         reviews.innerHTML += tmp
                     })

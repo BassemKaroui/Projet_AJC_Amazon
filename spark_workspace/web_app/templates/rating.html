@@ -12,13 +12,14 @@
     <div class="col-8 d-flex justify-content-center">
         <div class="row w-100 d-flex justify-content-center">
             <div class="input-group col-12 d-flex justify-content-center mt-5 mb-5">
-                <input type="text" class="form-control col-5" id="comment"
-                    placeholder="Fill with your comment..."></input>
-                <button class="btn btn-warning w-10" type="button" onclick="computeComment()">Compute</button>
+                <textarea type="text" rows="5" class="form-control col-8" id="comment"
+                    placeholder="Fill with your comment..." spellcheck="false"></textarea>
+                <input type="text" class="col-1 overall text-center" id="overall" placeholder="Overall"></input>
+                <button class="btn btn-warning" type="button" onclick="computeComment()">Compute</button>
             </div>
 
             <div class="m-2"></div>
-            <canvas id="myChart" width="0.7" height="0.25" class="mb-5"></canvas>
+            <canvas id="myChart" width="1" height="0.10" class="mb-5"></canvas>
         </div>
         <div class="row">
         </div>
@@ -33,6 +34,15 @@
 
 <script>
 
+    const navitem = document.getElementById("rat")
+    var x = document.getElementsByClassName("nav-main-item");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].classList.remove("active");
+    }
+    navitem.classList.add("active")
+
+
     Chart.defaults.font.size = 18;
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -40,7 +50,7 @@
         data: {
             labels: ['1 Star', '2 Stars', '3 Stars', '4 Stars', '5 Stars'],
             datasets: [{
-                label: 'Estimated Rating',
+                label: 'Predicted Rating',
                 data: [0, 0, 0, 0, 0, 0],
                 backgroundColor: [
                     'rgba(255, 227, 189, 0.5)'

@@ -6,7 +6,75 @@
 <!-- Ajout du contenu -->
 {% block content %}
 
-<b>Price</b>
+<div class="container-fluid d-flex flex-row p-0 w-100 pt-5">
+    <div class="d-flex flex-column justify-content-start pt-0">
+        <img id="display" src="https://images-na.ssl-images-amazon.com/images/I/61J4LHlcQTL.jpg"
+            class="w-75 h-75 align-self-end">
+    </div>
+    <div class="d-flex flex-column p-0 w-75">
+        <div class="input-group d-flex flex-column justify-content-start mt-3 mb-3">
+            <div class="d-flex flex-row text-end">
+                <label for="pr-title" class="col-sm-2 col-form-label align-self-center pe-3">Title</label>
+                <input type="text" class="form-control w-75 align-self-center" id="pr-title" placeholder="Product Title"
+                    value="Zorro - Bold Caballero"></input>
+            </div>
+
+            <div class="d-flex flex-row text-end">
+                <label for="pr-desc" class="col-sm-2 col-form-label align-self-center pe-3">Description</label>
+                <textarea type="text" class="form-control w-75 align-self-center" spellcheck="false" rows="6"
+                    id="pr-desc" placeholder="Product Description">Zorro the legendary masked hero of old California, battles for the oppressed citizens of Santa Cruz against the vicious commandant, Sebastian Golle. Working the villagers to the breaking point and skimming taxes owed to Spain, Golle is desperate to rid himself of his nemesis. Zorros fight is seemingly finished when newly appointed Governor Palma is murdered and Zorro is falsely arrested for the crime.
+                </textarea>
+            </div>
+
+            <div class="d-flex flex-row text-end">
+                <label for="pr-cat" class="col-sm-2 col-form-label align-self-center pe-3">Category</label>
+                <select id="pr-cat" class="form-select w-75 align-self-center">
+                    <option>Select Category...</option>
+                    <option selected>Movies & TV</option>
+                    <option>Books</option>
+                    <option>Sports & Outdoors</option>
+                    <option>Clothing Shoes & Jewelry</option>
+                    <option>Toys & Games</option>
+                    <option>Arts, Crafts & Sewing</option>
+                    <option>Amazon Home</option>
+                    <option>Camera & Photo</option>
+                    <option>All Electronics'</option>
+                    <option>CDs & Vinyl</option>
+                    <option>Cell Phones & Accessories</option>
+                    <option>Industrial & Scientific</option>
+                    <option>Grocery</option>
+                    <option>Home Audio & Theater</option>
+                    <option>Health & Personal Care</option>
+                    <option>Tools & Home Improvement</option>
+                    <option>All Beauty</option>
+                    <option>Baby</option>
+                </select>
+            </div>
+
+            <div class="d-flex flex-row text-end">
+                <label for="pr-img" class="col-sm-2 col-form-label align-self-center pe-3">ImageURL</label>
+                <input type="text" class="form-control w-75 align-self-center" id="pr-img"
+                    placeholder="Product Image URL"
+                    value="https://images-na.ssl-images-amazon.com/images/I/61J4LHlcQTL.jpg"></input>
+            </div>
+
+            <div class="d-flex flex-row text-end">
+                <label for="pr-price" class="col-sm-2 col-form-label align-self-center pe-3">Real Price</label>
+                <input type="text" class="form-control w-75 align-self-center" id="pr-price"
+                    placeholder="Product Real Price" value="$5.98"></input>
+            </div>
+
+            <button class="btn btn-warning w-25 align-self-center" type="button"
+                onclick="computeData()">Compute</button>
+        </div>
+        <div class="d-flex flex-column text-center justify-content-center pt-5">
+            <span>Predicted Price:</span>
+            <span id="pred-price" class="result p-price"><b>$4.50 - $10.50</b></span>
+        </div>
+    </div>
+
+
+</div>
 
 {% endblock %}
 
@@ -16,6 +84,46 @@
 
 <script>
 
+    const imgURL = document.getElementById("pr-img")
+    const display = document.getElementById("display")
+    const navitem = document.getElementById("pri")
+    var x = document.getElementsByClassName("nav-main-item");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].classList.remove("active");
+    }
+    navitem.classList.add("active")
+
+    imgURL.addEventListener('change', event => {
+        if (imgURL.value != null) {
+            display.setAttribute("src", imgURL.value)
+        }
+    });
+
+    function computeData() {
+        var item = {};
+        item["title"] = $("#pr-title").val();
+        item["description"] = $("#pr-desc").val();
+        item["main_cat"] = $("#pr-cat").val();
+        item["image"] = $("#pr-img").val();
+        var datasJson = JSON.stringify(item);
+        console.log(datasJson)
+
+        // $.ajax({
+        //     url: "/api/getprice",
+        //     contentType: "application/json; charset=utf-8", //type de donnée envoyée
+        //     dataType: "json", //type de donnée reçue
+        //     type: "POST",
+        //     data: datasJson,
+        //     success: function (response) {
+        //         var price = document.getElementById("pred-price")
+        //         price.innerHTML = "<b>$" + response[0] + " - $" + response[1] + "</b>"
+        //     },
+        //     error: function () {
+        //         console.log("Error")
+        //     }
+        // });
+    }
 
 </script>
 

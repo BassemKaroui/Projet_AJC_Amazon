@@ -130,6 +130,7 @@ tr:hover {
   
   .card-header {
     background-color: #ffc107;
+    font-size: x-large;
   }
 
   .card {
@@ -178,4 +179,16 @@ tr:hover {
     border-top-color: rgb(228, 228, 228);
     border-top-width: 3px;
     border-top-style: solid;
+  }
+
+  .result {
+    font-size: xx-large;
+  }
+
+  .active {
+    color: #ffc107;
+  }
+
+  .overall {
+    border: 1px solid #ced4da;
   }

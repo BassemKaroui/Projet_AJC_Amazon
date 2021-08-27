@@ -6,34 +6,38 @@
 <!-- Ajout du contenu -->
 {% block content %}
 
-<div class="container-fluid d-flex flex-row justify-content-around align-items-center">
+<div class="container-fluid d-flex flex-row justify-content-around align-items-start pt-3">
 
-    <a href="/reviews" class="custom-card">
-        <div class="card flex-fill m-3">
-            <div class="card-header text-center"><b>Reviews</b></div>
-            <div class="card-body">Search for products, all associated data will be displayed such as product
+    <a href="/reviews" class="custom-card col-4">
+        <div class="card m-3">
+            <div class="card-header text-center"><span class="fa fa-search"></span><b> Product Overview</b></div>
+            <div class="card-body"><br>Search for products, all associated data will be displayed such as product
                 description,
-                reviews, price...</div>
+                reviews, price...<br><br><br></div>
             <div class="card-footer text-center">-</div>
         </div>
     </a>
 
-    <a href="/rating" class="custom-card">
-        <div class="card flex-fill m-3">
-            <div class="card-header text-center"><b>Rating</b></div>
-            <div class="card-body">Pre-trained bert model used to predict average rating from reviewText.
+    <a href="/rating" class="custom-card col-4">
+        <div class="card m-3">
+            <div class="card-header text-center"><span class="fa fa-star"></span><b> 5-Stars Rating</b></div>
+            <div class="card-body">Bert model used for sentiment analysis. The overall rating is predicted based on
+                customer review texts.<br><br><b>Inputs:</b> Review comment.<br><b>Output:</b> 5-stars
+                rating.
             </div>
-            <div class="card-footer text-center">Accuracy: <b>??%</b></div>
+            <div class="card-footer text-center">Top1 Accuracy: <b>64.5%</b><br>Top2 Accuracy: <b>85.8%</b></div>
         </div>
     </a>
 
-    <a href="/price" class="custom-card">
-        <div class="card flex-fill m-3">
-            <div class="card-header text-center"><b>Price</b></div>
-            <div class="card-body">Multi-model approach to give seller an estimated price based on product meta-data,
-                pictures...
+    <a href="/price" class="custom-card col-4">
+        <div class="card m-3">
+            <div class="card-header text-center"><span class="fa fa-dollar"></span><b> Price Estimator</b>
             </div>
-            <div class="card-footer text-center">Accuracy: <b>??%</b></div>
+            <div class="card-body">Multi-model approach to give seller an estimated price based on product meta-data and
+                pictures.<br><br><b>Inputs:</b> Title, Description, Category and Image.<br><b>Output:</b> Estimated
+                Price.
+            </div>
+            <div class="card-footer text-center">MSE: <b>440</b></div>
         </div>
     </a>
 
@@ -48,13 +52,8 @@
 
 <script>
 
-
-    $(document).ready(function () {
-
-
-    })
-
-
+    const navbar = document.getElementById("nav-main")
+    navbar.classList.add("visually-hidden")
 
 </script>
 
