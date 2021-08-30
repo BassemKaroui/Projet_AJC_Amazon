@@ -109,20 +109,21 @@
         var datasJson = JSON.stringify(item);
         console.log(datasJson)
 
-        // $.ajax({
-        //     url: "/api/getprice",
-        //     contentType: "application/json; charset=utf-8", //type de donnée envoyée
-        //     dataType: "json", //type de donnée reçue
-        //     type: "POST",
-        //     data: datasJson,
-        //     success: function (response) {
-        //         var price = document.getElementById("pred-price")
-        //         price.innerHTML = "<b>$" + response[0] + " - $" + response[1] + "</b>"
-        //     },
-        //     error: function () {
-        //         console.log("Error")
-        //     }
-        // });
+        $.ajax({
+            url: "/api/price",
+            contentType: "application/json; charset=utf-8", //type de donnée envoyée
+            dataType: "json", //type de donnée reçue
+            type: "POST",
+            data: datasJson,
+            success: function (response) {
+                console.log(response)
+                var price = document.getElementById("pred-price")
+                price.innerHTML = "<b>$" + response['price'] + "</b>"
+            },
+            error: function () {
+                console.log("Error")
+            }
+        });
     }
 
 </script>

@@ -16,9 +16,6 @@ services:
       - spark_net
     ports:
       - "8800:8888"
-      - "5000:5000"
-    env_file: 
-      - ./env/flask.env
     volumes: 
       - ./spark_workspace:/root/workspace
     stdin_open: true

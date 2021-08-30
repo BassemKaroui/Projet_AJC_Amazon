@@ -169,7 +169,12 @@ def create_app():
     price_estimator = PriceModel(checkpoint_price, device)
     # price_estimator.load_state_dict(torch.load(''))
     price_estimator.top.load_state_dict(torch.load(
-        './price_calculator_checkpoints/model_top_epoch_15.pth'))
+        'web_app/price_calculator_checkpoints/model_top_epoch_39.pth'))
+    price_estimator.distilroberta.pooler.load_state_dict(torch.load(
+        'web_app/price_calculator_checkpoints/model_distilroberta_pooler_epoch_39.pth'))
+    price_estimator.distilroberta.encoder.layer[5].load_state_dict(torch.load(
+        'web_app/price_calculator_checkpoints/model_distilroberta_encoder_layer_5_epoch_39.pth'))
+    price_estimator.eval()
 
     #-----------------------------------------------------------------------------------#
     # PAGES                                                                             #
@@ -286,8 +291,10 @@ def create_app():
             description, truncation=True, return_tensors='pt')
         category = price_estimator.tokenizer(
             category, truncation=True, return_tensors='pt')
-        pred_price = price_estimator(
-            title, category, description, mask_img, img)
+        with torch.no_grad():
+            with amp.autocast():
+                pred_price = price_estimator(
+                    title, category, description, mask_img, img)
         response = {'price': pred_price.item()}
         return jsonify(response)
     return app
