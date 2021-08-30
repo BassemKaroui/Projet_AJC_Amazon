@@ -1,9 +1,7 @@
 __pycache__
-data/
-price_calculator_checkpoints
-meta_Movies_and_TV.json
-Movies_and_TV.json
+*.pth
+*.json
 .ipynb_checkpoints
 .Trash-0
-product_images
 *.csv
+*.jpg
